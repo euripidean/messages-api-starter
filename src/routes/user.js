@@ -5,13 +5,13 @@ const User = require('../models/user')
 
 /** Route to get all users. */
 router.get('/', async (req, res) => {
-    try {
-      const users = await User.find();
-      return res.json({ users });
-    } catch (err) {
-      throw err.message;
-    }
-  });
+  try {
+    const users = await User.find();
+    return res.json({ users });
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+});
 
 /** Route to get one user by id. */
 router.get('/:userID', async (req, res) => {
@@ -23,7 +23,7 @@ router.get('/:userID', async (req, res) => {
       }
       return res.json({ user });
     } catch (err) {
-      throw err.message;
+      res.status(500).json({ error: err.message })
     }
   });
 
@@ -34,7 +34,7 @@ router.post('/', async (req, res) => {
       const user = await User.create({ username, password });
       return res.status(201).json({ user });
     } catch (err) {
-      throw err.message;
+      res.status(500).json({ error: err.message })
     }
   });
 
@@ -44,7 +44,7 @@ router.put('/:userId', async (req, res) => {
       const user = await User.findByIdAndUpdate(req.params.userId, req.body, { new: true });
       return res.json({ user });
     } catch (err) {
-      throw err.message;
+      res.status(500).json({ error: err.message })
     }
   });
 
@@ -55,7 +55,7 @@ router.delete('/:userId', async (req, res) => {
         return res.json({ user });
     }
     catch (err) {
-        throw err.message;
+        res.status(500).json({ error: err.message })
     }
 });
 

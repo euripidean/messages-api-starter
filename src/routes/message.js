@@ -10,7 +10,7 @@ router.get('/', async (req, res) => {
         const messages = await Message.find();
         return res.json({ messages });
     } catch (err) {
-        throw err.message;
+        res.status(500).json({ error: err.message })
     }
 })
 
@@ -25,7 +25,7 @@ router.get('/:messageId', async (req, res) => {
         }
         return res.json({ message });
     } catch (err) {
-        throw err.message;
+        res.status(500).json({ error: err.message })
     }
 });
 
@@ -36,7 +36,7 @@ router.post('/', async (req, res) => {
         const message = await Message.create({ title, body, author });
         return res.status(201).json({ message });
     } catch (err) {
-        throw err.message;
+        res.status(500).json({ error: err.message })
     }
 });
 
@@ -46,7 +46,7 @@ router.put('/:messageId', async (req, res) => {
         const message = await Message.findByIdAndUpdate(req.params.messageId, req.body, { new: true });
         return res.json({ message });
     } catch (err) {
-        throw err.message;
+        res.status(500).json({ error: err.message })
     }
 });
 
@@ -57,7 +57,7 @@ router.delete('/:messageId', async (req, res) => {
         return res.json({ message });
     }
     catch (err) {
-        throw err.message;
+        res.status(500).json({ error: err.message })
     }
 });
 
